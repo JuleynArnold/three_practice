@@ -1,0 +1,40 @@
+Textures
+    Albedo/Color- 
+        Color applied to the geometry
+    Alpha- 
+        Grayscale image, 
+        white is visible, 
+        black part not visible, 
+        Grays are partially visible
+    Displacement(height)- 
+        Grayscale image, 
+        move the vertices, 
+        if its white it goes up, 
+        if its black it goes down, 
+        its gray the vertices won't move
+    Normal
+        -Add details
+        -doesn't need subdivision
+        -the vertices won't move
+        -lure the light about the face orientation
+        -better performances than adding a height texture with a lot of subdivisions
+    Ambient occlusion
+        -grayscale image
+        -add fake shadows in the crevices
+        -not physcially accurate
+        -helps to create contrast and see details.
+    Metalness
+        -grayscale image
+        -white is metallic
+        -black is non-metallic
+        -mostly for reflection
+    Roughness
+        -grayscale image
+        -in duo with the Metalness
+        -white is rough
+        -black is smooth
+        -mostly for light dissipation
+    PBR Principles (Physically Based Rendering)
+        -Many techniquies that tend to follow real-life direction to get realistic results
+        -becoming the standard for realistic renders
+        -many software, engines and libraries and using it
