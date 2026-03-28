@@ -1,13 +1,44 @@
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
-import GUI from 'lil-gui'
+
+const loadingManager = new THREE.LoadingManager();
+const textureLoader = new THREE.TextureLoader(loadingManager);
+
+const textureUrls = [
+    '/textures/door/color.jpg',
+    '/textures/door/alpha.jpg',
+    '/textures/door/height.jpg',
+    '/textures/door/normal.jpg',
+    '/textures/door/metalness.jpg',
+    '/textures/door/roughness.jpg',
+    '/textures/checkerboard-8x8.png',
+    '/textures/checkerboard-1024x1024.png'
+]
+const textures = textureUrls.map(url => textureLoader.load(url,
+    () => {
+        console.log('Onload');
+    },
+    () => {
+        console.error('OnProgress');
+    },
+    () => {
+        console.log('OnError');
+    }
+));
+textures.forEach(texture => { 
+    texture.colorSpace = THREE.SRGBColorSpace;
+    //texture.repeat.set(2,3);
+    //texture.wrapS = THREE.RepeatWrapping;
+    //texture.wrapT = THREE.RepeatWrapping;
+    texture.generateMipmaps = false;
+    //texture.minFilter = THREE.NearestFilter;
+    //texture.magFilter = THREE.NearestFilter;
+    
+});
 
 /**
  * Base
  */
-// Debug
-const gui = new GUI()
-
 // Canvas
 const canvas = document.querySelector('canvas.webgl')
 
@@ -15,50 +46,13 @@ const canvas = document.querySelector('canvas.webgl')
 const scene = new THREE.Scene()
 
 /**
- * Lights
+ * Object
  */
-const ambientLight = new THREE.AmbientLight(0xffffff, 1.5)
-scene.add(ambientLight)
-
-const pointLight = new THREE.PointLight(0xffffff, 50)
-pointLight.position.x = 2
-pointLight.position.y = 3
-pointLight.position.z = 4
-scene.add(pointLight)
-
-/**
- * Objects
- */
-// Material
-const material = new THREE.MeshStandardMaterial()
-material.roughness = 0.4
-
-// Objects
-const sphere = new THREE.Mesh(
-    new THREE.SphereGeometry(0.5, 32, 32),
-    material
-)
-sphere.position.x = - 1.5
-
-const cube = new THREE.Mesh(
-    new THREE.BoxGeometry(0.75, 0.75, 0.75),
-    material
-)
-
-const torus = new THREE.Mesh(
-    new THREE.TorusGeometry(0.3, 0.2, 32, 64),
-    material
-)
-torus.position.x = 1.5
-
-const plane = new THREE.Mesh(
-    new THREE.PlaneGeometry(5, 5),
-    material
-)
-plane.rotation.x = - Math.PI * 0.5
-plane.position.y = - 0.65
-
-scene.add(sphere, cube, torus, plane)
+const geometry = new THREE.BoxGeometry(1, 1, 1)
+//const geometry = new THREE.SphereGeometry(0.5, 32, 32)
+const material = new THREE.MeshBasicMaterial({ map: textures[6] })
+const mesh = new THREE.Mesh(geometry, material)
+scene.add(mesh)
 
 /**
  * Sizes
@@ -90,7 +84,7 @@ window.addEventListener('resize', () =>
 const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
 camera.position.x = 1
 camera.position.y = 1
-camera.position.z = 2
+camera.position.z = 1
 scene.add(camera)
 
 // Controls
@@ -114,15 +108,6 @@ const clock = new THREE.Clock()
 const tick = () =>
 {
     const elapsedTime = clock.getElapsedTime()
-
-    // Update objects
-    sphere.rotation.y = 0.1 * elapsedTime
-    cube.rotation.y = 0.1 * elapsedTime
-    torus.rotation.y = 0.1 * elapsedTime
-
-    sphere.rotation.x = 0.15 * elapsedTime
-    cube.rotation.x = 0.15 * elapsedTime
-    torus.rotation.x = 0.15 * elapsedTime
 
     // Update controls
     controls.update()

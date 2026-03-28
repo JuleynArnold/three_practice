@@ -38,3 +38,21 @@ Textures
         -Many techniquies that tend to follow real-life direction to get realistic results
         -becoming the standard for realistic renders
         -many software, engines and libraries and using it
+    Filtering
+    Mipmapping
+        A technique that consist of creating half a smaller version of a texture again and again until we get a 1x1 texture
+        All those variations are sent to the GPU and it chooses the most appropriate version of the texture
+        Minificiation filter- when the pixesl of the texture are smaller than the pixels of the render, texture too big for the surface
+            can change the minFilter property 
+        Magnification- texture is not big enough
+    When preparing Textures keep in mind 3 elements
+        -the weight: size of the file, downloaded from web so it could be expensive, can compress files
+        -the resolution: each pixel will be stored in the gpu regardless of weight, mipmapping increases the number of pixels stored
+            textures support transparency, but jpg doesnt so use png if necessary
+            normals usually lossless, uncompressed pngs
+        -the data:
+        -make sure to follow licenscing agreement with textures
+
+Algorithms that decide on color of each pixel are written in programs called shaders
+Three.js has many built in materials with pre-made shaders.
+    
