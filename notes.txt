@@ -52,7 +52,15 @@ Textures
             normals usually lossless, uncompressed pngs
         -the data:
         -make sure to follow licenscing agreement with textures
+    Texture Optimization
+        -Ensure weight is small
+        -Try different formats/compression (ex. webp, basis)
 
 Algorithms that decide on color of each pixel are written in programs called shaders
 Three.js has many built in materials with pre-made shaders.
-    
+
+Lights
+    -Use a few as possible for performances
+    -Minimal cost lights: Ambient and Hemisphere
+    -High cost: spot lights, rect area lights
+    -baking: Bake the light into the texture, cannot move the light after baking
